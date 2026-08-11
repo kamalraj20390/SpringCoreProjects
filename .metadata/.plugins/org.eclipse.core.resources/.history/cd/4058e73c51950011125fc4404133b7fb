@@ -1,0 +1,18 @@
+package com.adda.app.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.adda.app.bean.DriverManager;
+
+@Configuration
+public class MyAppConfig {
+	@Bean
+	public DriverManager conObj() {
+		DriverManager dm=new DriverManager();
+		dm.setDriverName("ORACLE");
+		dm.setUrl("LOCALHOST");
+		return dm;
+	}
+
+}
