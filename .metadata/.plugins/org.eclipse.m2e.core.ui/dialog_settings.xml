@@ -49,12 +49,14 @@
 	</section>
 	<section name="MavenProjectWizardArtifactPage">
 		<list key="groupId">
+			<item value="com.adda.app"/>
 			<item value="com.adda"/>
 			<item value="02SpringCoreXml"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="04SpringCoreJavaConfiguratation"/>
 			<item value="03SpringCoreAnnotationConfig"/>
 			<item value="com.adda"/>
 		</list>

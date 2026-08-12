@@ -2,14 +2,22 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="org.springframework.context.support.ClassPathXmlApplicationContext"/>
     <fullyQualifiedTypeName name="com.adda.app.bean.OracleCon"/>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
-    <fullyQualifiedTypeName name="org.springframework.context.annotation.AnnotationConfigApplicationContext"/>
     <fullyQualifiedTypeName name="org.springframework.context.ApplicationContext"/>
     <fullyQualifiedTypeName name="com.adda.app.bean.HandlerInfo"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
-    <fullyQualifiedTypeName name="org.springframework.context.annotation.ComponentScan"/>
-    <fullyQualifiedTypeName name="com.adda.app.config.MyAppConfig"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.PropertySource"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
+    <fullyQualifiedTypeName name="com.adda.app.bean.MyController"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
+    <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+    <fullyQualifiedTypeName name="org.springframework.context.annotation.AnnotationConfigApplicationContext"/>
+    <fullyQualifiedTypeName name="com.adda.app.config.MyAppConfig"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+    <fullyQualifiedTypeName name="com.adda.app.bean.DriverManager"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="com.adda.app.bean.MyService"/>
+    <fullyQualifiedTypeName name="org.springframework.context.annotation.ComponentScan"/>
+    <fullyQualifiedTypeName name="org.springframework.context.annotation.Primary"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Qualifier"/>
 </qualifiedTypeNameHistroy>

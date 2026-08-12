@@ -3,7 +3,7 @@ package com.adda.app.bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class MyService {
 	@Value("myService")
 	private String serviceName;
