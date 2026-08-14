@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans
+          https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Repository Beans -->
+    <bean id="studentRepository"
+          class="com.placementadda.sms.repository.impl.StudentRepositoryImpl"/>
+
+    <bean id="courseRepository"
+          class="com.placementadda.sms.repository.impl.CourseRepositoryImpl"/>
+
+    <bean id="enrollmentRepository"
+          class="com.placementadda.sms.repository.impl.EnrollmentRepositoryImpl"/>
+
+    <!-- Service Beans: Constructor Injection -->
+    <bean id="studentService"
+          class="com.placementadda.sms.service.impl.StudentServiceImpl">
+        <constructor-arg ref="studentRepository"/>
+    </bean>
+
+    <bean id="courseService"
+          class="com.placementadda.sms.service.impl.CourseServiceImpl">
+        <constructor-arg ref="courseRepository"/>
+    </bean>
+
+    <bean id="enrollmentService"
+          class="com.placementadda.sms.service.impl.EnrollmentServiceImpl">
+        <constructor-arg ref="studentRepository"/>
+        <constructor-arg ref="courseRepository"/>
+        <constructor-arg ref="enrollmentRepository"/>
+    </bean>
+
+    <!-- Controller: Constructor Injection -->
+    <bean id="studentController"
+          class="com.placementadda.sms.controller.StudentController">
+        <constructor-arg ref="studentService"/>
+        <constructor-arg ref="courseService"/>
+        <constructor-arg ref="enrollmentService"/>
+    </bean>
+</beans>
