@@ -6,6 +6,7 @@
 	</section>
 	<section name="MavenProjectWizardLocationPage">
 		<list key="location">
+			<item value="D:\Spring-2026-2027\05SpringCoreScope\src\main\java\com\adda\app\scheduling\service\ProductReportService.java"/>
 			<item value="D:\Spring-2026-2027\04SpringCoreJavaConfiguratation\src\main\java\com\adda\app\config\MyAppConfig.java"/>
 			<item value="D:\Spring-2026-2027\02SpringCoreXml\src\main\java\com\adda\app\test\Test.java"/>
 			<item value="D:\Spring-2026-2027\02SpringCoreXml\pom.xml"/>
@@ -57,6 +58,7 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="06SpringCoreSMS"/>
 			<item value="05SpringCoreScope"/>
 			<item value="04SpringCoreJavaConfiguratation"/>
 			<item value="03SpringCoreAnnotationConfig"/>

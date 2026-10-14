@@ -1,0 +1,38 @@
+my:
+  db:
+    driver: dev
+    password: root
+    password1: root
+    url: localhost
+    #user: root
+    USER: ROOT
+server:
+  port: 8085
+spring:
+  application:
+    name: 08SpringBootProp
+  datasource:
+    # 1. Database Connection Strings
+    url: jdbc:mysql://localhost:3306/javaprj?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    # 2. Connection Pool (HikariCP - Default)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 1800000
+      connection-timeout: 20000
+  jpa:
+    # 3. JPA / Hibernate Engine Behavior
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true

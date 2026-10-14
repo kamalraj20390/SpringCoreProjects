@@ -1,0 +1,13 @@
+my:
+  db:
+    driver: qa
+    password: root
+    password1: root
+    url: localhost
+    #user: root
+    USER: ROOT
+spring:
+  application:
+    name: 08SpringBootProp
+server:
+  port: 8087
