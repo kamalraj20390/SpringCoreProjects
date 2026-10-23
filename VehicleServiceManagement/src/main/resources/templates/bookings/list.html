@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Bookings')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+	<nav th:replace="~{fragments/layout :: navbar}"></nav>
+	<div th:replace="~{fragments/layout :: alerts}"></div>
+	<main class="container-fluid py-4 flex-grow-1">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h1 class="h3 mb-0"><i class="bi bi-calendar-check me-2 text-info"></i>Service Bookings</h1>
+			<a th:href="@{/bookings/new}" class="btn btn-info text-white"><i class="bi bi-plus-lg me-1"></i>New
+				Booking</a>
+		</div>
+		<div class="card border-0 shadow-sm">
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<table class="table table-hover mb-0">
+						<thead class="table-dark">
+							<tr>
+								<th>#</th>
+								<th>Vehicle</th>
+								<th>Booking Date</th>
+								<th>Complaint</th>
+								<th>Status</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="b, stat : ${bookings}">
+								<td th:text="${stat.count}"></td>
+								<td
+									th:text="${b.vehicle.registrationNumber + ' – ' + b.vehicle.make + ' ' + b.vehicle.model}">
+								</td>
+								<td th:text="${#temporals.format(b.bookingDate,'dd MMM yyyy HH:mm')}"></td>
+								<td th:text="${b.complaint}"></td>
+								<td>
+									<span class="badge" th:classappend="${b.status.name() == 'BOOKED' ? 'bg-primary' :
+									                      b.status.name() == 'CONFIRMED' ? 'bg-success' :
+									                      b.status.name() == 'CANCELLED' ? 'bg-danger' :
+									                      'bg-secondary'}" th:text="${b.status}">
+									</span>
+								</td>
+								<td class="text-nowrap">
+									<form th:action="@{/bookings/{id}/confirm(id=${b.id})}" method="post"
+										class="d-inline" th:if="${b.status.name() == 'BOOKED'}">
+										<button class="btn btn-sm btn-outline-success me-1" title="Confirm">
+											<i class="bi bi-check-lg"></i>
+										</button>
+									</form>
+									<a th:href="@{/bookings/{id}/convert(id=${b.id})}"
+										class="btn btn-sm btn-outline-warning me-1"
+										th:if="${b.status.name() != 'CANCELLED' and b.status.name() != 'CONVERTED_TO_JOB_CARD'}"
+										title="Convert to Job Card">
+										<i class="bi bi-arrow-right-circle"></i>
+									</a>
+									<form th:action="@{/bookings/{id}/cancel(id=${b.id})}" method="post"
+										class="d-inline"
+										th:if="${b.status.name() != 'CANCELLED' and b.status.name() != 'CONVERTED_TO_JOB_CARD'}"
+										onsubmit="return confirmDelete('cancel this booking')">
+										<button class="btn btn-sm btn-outline-danger" title="Cancel">
+											<i class="bi bi-x-circle"></i>
+										</button>
+									</form>
+								</td>
+							</tr>
+							<tr th:if="${#lists.isEmpty(bookings)}">
+								<td colspan="6" class="text-center text-muted py-4">No bookings yet.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

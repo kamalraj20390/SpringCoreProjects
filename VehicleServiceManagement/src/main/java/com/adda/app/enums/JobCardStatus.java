@@ -1,0 +1,5 @@
+package com.adda.app.enums;
+
+public enum JobCardStatus {
+    RECEIVED, DIAGNOSIS, WAITING_FOR_PARTS, IN_PROGRESS, READY_FOR_DELIVERY, DELIVERED, CANCELLED
+}

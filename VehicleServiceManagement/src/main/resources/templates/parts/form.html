@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Spare Part')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <main class="container py-4 flex-grow-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-secondary text-white py-3">
+                        <h4 class="mb-0">
+                            <i class="bi bi-box-seam me-2"></i>
+                            <span th:text="${part.id != null ? 'Edit Part' : 'Add Spare Part'}">Part</span>
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                        <form th:action="@{/parts/save}" method="post" th:object="${part}" novalidate>
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Part Code <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" th:field="*{partCode}"
+                                    th:classappend="${#fields.hasErrors('partCode')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:errors="*{partCode}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" th:field="*{name}"
+                                    th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:errors="*{name}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Description</label>
+                                <textarea class="form-control" th:field="*{description}" rows="2"></textarea>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Unit Price (₹) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" th:field="*{unitPrice}" step="0.01"
+                                        min="0" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Stock Qty</label>
+                                    <input type="number" class="form-control" th:field="*{stockQuantity}" min="0" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Low Stock Threshold</label>
+                                    <input type="number" class="form-control" th:field="*{lowStockThreshold}" min="0" />
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-secondary px-4"><i
+                                        class="bi bi-save me-1"></i>Save</button>
+                                <a th:href="@{/parts}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

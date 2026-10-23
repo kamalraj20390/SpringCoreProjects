@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Vehicle')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <main class="container py-4 flex-grow-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white py-3">
+                        <h4 class="mb-0">
+                            <i class="bi bi-car-front me-2"></i>
+                            <span th:text="${vehicle.id != null ? 'Edit Vehicle' : 'Register Vehicle'}">Vehicle</span>
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                        <form th:action="@{/vehicles/save}" method="post" th:object="${vehicle}" novalidate>
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Customer <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" name="customer.id" required>
+                                        <option value="">-- Select Customer --</option>
+                                        <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"
+                                            th:selected="${vehicle.customer != null and vehicle.customer.id == c.id}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Registration Number <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" th:field="*{registrationNumber}"
+                                        th:classappend="${#fields.hasErrors('registrationNumber')} ? 'is-invalid'" />
+                                    <div class="invalid-feedback" th:errors="*{registrationNumber}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Make <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" th:field="*{make}"
+                                        th:classappend="${#fields.hasErrors('make')} ? 'is-invalid'" />
+                                    <div class="invalid-feedback" th:errors="*{make}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Model <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" th:field="*{model}"
+                                        th:classappend="${#fields.hasErrors('model')} ? 'is-invalid'" />
+                                    <div class="invalid-feedback" th:errors="*{model}"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Fuel Type <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" th:field="*{fuelType}">
+                                        <option value="">-- Select --</option>
+                                        <option th:each="f : ${fuelTypes}" th:value="${f}" th:text="${f}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Manufacturing Year <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" th:field="*{manufacturingYear}"
+                                        th:classappend="${#fields.hasErrors('manufacturingYear')} ? 'is-invalid'" />
+                                    <div class="invalid-feedback" th:errors="*{manufacturingYear}"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Odometer (km) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" th:field="*{odometer}"
+                                        th:classappend="${#fields.hasErrors('odometer')} ? 'is-invalid'" />
+                                    <div class="invalid-feedback" th:errors="*{odometer}"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 mt-4">
+                                <button type="submit" class="btn btn-success px-4"><i
+                                        class="bi bi-save me-1"></i>Save</button>
+                                <a th:href="@{/vehicles}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

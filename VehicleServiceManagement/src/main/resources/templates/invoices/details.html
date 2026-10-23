@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Invoice')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+	<nav th:replace="~{fragments/layout :: navbar}"></nav>
+	<div th:replace="~{fragments/layout :: alerts}"></div>
+	<main class="container py-4 flex-grow-1">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h1 class="h3 mb-0">
+				<i class="bi bi-receipt me-2 text-success"></i>Invoice
+			</h1>
+			<div class="d-flex gap-2">
+				<button onclick="window.print()" class="btn btn-outline-secondary">
+					<i class="bi bi-printer me-1"></i>Print
+				</button>
+				<a th:href="@{/invoices}" class="btn btn-outline-secondary"><i
+					class="bi bi-arrow-left me-1"></i>Back</a>
+			</div>
+		</div>
+
+		<div class="card border-0 shadow-sm mb-4 print-card">
+			<div class="card-body p-4">
+				<!-- Invoice Header -->
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<h2 class="text-primary fw-bold mb-1">VSMS Workshop</h2>
+						<p class="text-muted small mb-0">Vehicle Service Management
+							System</p>
+					</div>
+					<div class="col-md-6 text-md-end">
+						<h4 class="mb-1">INVOICE</h4>
+						<p class="mb-0">
+							<strong th:text="${invoice.invoiceNumber}"></strong>
+						</p>
+						<p class="text-muted small mb-0"
+							th:text="${#temporals.format(invoice.invoiceDate,'dd MMMM yyyy')}"></p>
+					</div>
+				</div>
+				<hr />
+
+				<!-- Vehicle & Job Card Info -->
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<h6 class="fw-bold text-uppercase text-muted small mb-2">Vehicle</h6>
+						<p class="mb-1"
+							th:text="${invoice.jobCard.vehicle.registrationNumber + ' – ' + invoice.jobCard.vehicle.make + ' ' + invoice.jobCard.vehicle.model}">
+						</p>
+						<p class="mb-0 text-muted small"
+							th:text="'Owner: ' + ${invoice.jobCard.vehicle.customer.name} + ' | ' + ${invoice.jobCard.vehicle.customer.phone}">
+						</p>
+					</div>
+					<div class="col-md-6">
+						<h6 class="fw-bold text-uppercase text-muted small mb-2">Job
+							Card</h6>
+						<p class="mb-1" th:text="${invoice.jobCard.jobCardNumber}"></p>
+						<p class="mb-0 text-muted small"
+							th:text="'Mechanic: ' + ${invoice.jobCard.mechanicName}"></p>
+					</div>
+				</div>
+
+				<!-- Labour Items -->
+				<h6 class="fw-bold text-uppercase text-muted small mb-2">Labour
+					/ Service</h6>
+				<table class="table table-sm mb-3 border rounded">
+					<thead class="table-light">
+						<tr>
+							<th>Description</th>
+							<th>Type</th>
+							<th class="text-center">Qty</th>
+							<th class="text-end">Unit Price</th>
+							<th class="text-end">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${invoice.jobCard.items}">
+							<td th:text="${item.description}"></td>
+							<td><span class="badge bg-secondary"
+								th:text="${item.itemType}"></span></td>
+							<td class="text-center" th:text="${item.quantity}"></td>
+							<td class="text-end" th:text="'₹' + ${item.unitPrice}"></td>
+							<td class="text-end" th:text="${'₹' + item.totalPrice}"></td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(invoice.jobCard.items)}">
+							<td colspan="5" class="text-muted text-center">None</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Parts -->
+				<h6 class="fw-bold text-uppercase text-muted small mb-2">Parts
+					Used</h6>
+				<table class="table table-sm mb-4 border rounded">
+					<thead class="table-light">
+						<tr>
+							<th>Part</th>
+							<th>Code</th>
+							<th class="text-center">Qty</th>
+							<th class="text-end">Unit Price</th>
+							<th class="text-end">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p : ${invoice.jobCard.parts}">
+							<td th:text="${p.sparePart.name}"></td>
+							<td th:text="${p.sparePart.partCode}"></td>
+							<td class="text-center" th:text="${p.quantity}"></td>
+							<td class="text-end" th:text="'₹' + ${p.unitPrice}"></td>
+							<td class="text-end" th:text="${'₹' + p.totalPrice}"></td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(invoice.jobCard.parts)}">
+							<td colspan="5" class="text-muted text-center">None</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Totals -->
+				<div class="row justify-content-end">
+					<div class="col-md-5">
+						<table class="table table-sm mb-0">
+							<tr>
+								<td>Labour Total</td>
+								<td class="text-end" th:text="'₹' + ${invoice.laborTotal}"></td>
+							</tr>
+							<tr>
+								<td>Parts Total</td>
+								<td class="text-end" th:text="'₹' + ${invoice.partsTotal}"></td>
+							</tr>
+							<tr
+								th:if="${invoice.discount.compareTo(T(java.math.BigDecimal).ZERO) > 0}">
+								<td class="text-success">Discount</td>
+								<td class="text-end text-success"
+									th:text="'- ₹' + ${invoice.discount}"></td>
+							</tr>
+							<tr
+								th:if="${invoice.taxAmount.compareTo(T(java.math.BigDecimal).ZERO) > 0}">
+								<td>Tax</td>
+								<td class="text-end" th:text="'₹' + ${invoice.taxAmount}"></td>
+							</tr>
+							<tr class="fw-bold border-top">
+								<td>Grand Total</td>
+								<td class="text-end fs-5" th:text="'₹' + ${invoice.grandTotal}"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Payments -->
+		<div class="card border-0 shadow-sm mb-4"
+			th:if="${invoice.paymentStatus.name() != 'PAID'}">
+			<div
+				class="card-header bg-white d-flex justify-content-between align-items-center">
+				<h5 class="mb-0">
+					<i class="bi bi-cash-coin me-2"></i>Record Payment
+				</h5>
+				<span class="text-muted small">Outstanding: <strong
+					class="text-danger" th:text="'₹' + ${outstanding}"></strong></span>
+			</div>
+			<div class="card-body">
+				<form th:action="@{/invoices/{id}/pay(id=${invoice.id})}"
+					method="post" class="row g-3">
+					<div class="col-md-3">
+						<label class="form-label small fw-semibold">Amount (₹)</label> <input
+							type="number" class="form-control" name="amount" step="0.01"
+							min="0.01" required />
+					</div>
+					<div class="col-md-3">
+						<label class="form-label small fw-semibold">Method</label> <select
+							class="form-select" name="paymentMethod" required>
+							<option th:each="m : ${paymentMethods}" th:value="${m}"
+								th:text="${m}"></option>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label class="form-label small fw-semibold">Reference No</label> <input
+							type="text" class="form-control" name="referenceNumber"
+							placeholder="Optional" />
+					</div>
+					<div class="col-md-2 d-flex align-items-end">
+						<button class="btn btn-success w-100">
+							<i class="bi bi-check2-circle me-1"></i>Pay
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Payment History -->
+		<div class="card border-0 shadow-sm">
+			<div class="card-header bg-white">
+				<h5 class="mb-0">
+					<i class="bi bi-list-check me-2"></i>Payment History
+				</h5>
+			</div>
+			<div class="card-body p-0">
+				<table class="table table-sm mb-0">
+					<thead class="table-light">
+						<tr>
+							<th>Date</th>
+							<th>Amount</th>
+							<th>Method</th>
+							<th>Reference</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p : ${invoice.payments}">
+							<td th:text="${#temporals.format(p.paymentDate,'dd MMM yyyy')}"></td>
+							<td class="fw-semibold" th:text="'₹' + ${p.amount}"></td>
+							<td><span class="badge bg-secondary"
+								th:text="${p.paymentMethod}"></span></td>
+							<td th:text="${p.referenceNumber ?: '—'}"></td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(invoice.payments)}">
+							<td colspan="4" class="text-center text-muted py-2">No
+								payments yet.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</main>
+	<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

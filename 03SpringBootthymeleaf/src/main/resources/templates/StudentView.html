@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>View Student</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow mx-auto" style="max-width: 650px;">
+
+        <!-- Header -->
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Student Details</h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- Student Profile -->
+            <div class="text-center mb-4">
+
+                <div class="rounded-circle bg-primary text-white d-inline-flex
+                            justify-content-center align-items-center"
+                     style="width: 90px; height: 90px; font-size: 35px;">
+
+                    <span th:text="${#strings.substring(student.name, 0, 1)}">
+                        S
+                    </span>
+
+                </div>
+
+                <h4 class="mt-3" th:text="${student.name}">
+                    Student Name
+                </h4>
+
+                <span class="badge bg-secondary">
+                    Student ID:
+                    <span th:text="${student.studentId}"></span>
+                </span>
+
+            </div>
+
+            <!-- Student Information -->
+            <table class="table table-bordered">
+
+                <tbody>
+
+                <tr>
+                    <th class="table-light" style="width: 35%;">
+                        Student ID
+                    </th>
+                    <td th:text="${student.studentId}"></td>
+                </tr>
+
+                <tr>
+                    <th class="table-light">Name</th>
+                    <td th:text="${student.name}"></td>
+                </tr>
+
+                <tr>
+                    <th class="table-light">Email</th>
+                    <td th:text="${student.email}"></td>
+                </tr>
+
+                <tr>
+                    <th class="table-light">Mobile</th>
+                    <td th:text="${student.mobile}"></td>
+                </tr>
+
+                <tr>
+                    <th class="table-light">City</th>
+                    <td th:text="${student.city}"></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+
+                <!-- Back to List -->
+                <a th:href="@{/student/list}"
+                   class="btn btn-secondary">
+                    Back to List
+                </a>
+
+                <div>
+
+                    <!-- Edit -->
+                    <a th:href="@{/student/edit/{id}(id=${student.studentId})}"
+                       class="btn btn-warning">
+                        Edit
+                    </a>
+
+                    <!-- Delete -->
+                    <form th:action="@{/student/delete/{id}(id=${student.studentId})}"
+                          method="post"
+                          class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this student?');">
+
+                        <button type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Vehicle History')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <main class="container py-4 flex-grow-1">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-0">
+                    <i class="bi bi-clock-history me-2 text-info"></i>Service History
+                </h1>
+                <p class="text-muted mb-0 small">
+                    <span th:text="${vehicle.registrationNumber}"></span> –
+                    <span th:text="${vehicle.make + ' ' + vehicle.model}"></span>
+                    (<span th:text="${vehicle.manufacturingYear}"></span>)
+                </p>
+            </div>
+            <a th:href="@{/vehicles}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back</a>
+        </div>
+
+        <!-- Bookings -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="bi bi-calendar-check me-2 text-primary"></i>Service Bookings</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date/Time</th>
+                            <th>Complaint</th>
+                            <th>Requested Service</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="b : ${bookings}">
+                            <td th:text="${#temporals.format(b.bookingDate,'dd MMM yyyy HH:mm')}"></td>
+                            <td th:text="${b.complaint}"></td>
+                            <td th:text="${b.requestedService ?: '—'}"></td>
+                            <td><span class="badge bg-secondary" th:text="${b.status}"></span></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(bookings)}">
+                            <td colspan="4" class="text-center text-muted py-3">No bookings.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Job Cards -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="bi bi-clipboard2-check me-2 text-warning"></i>Job Cards</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Job Card #</th>
+                            <th>Mechanic</th>
+                            <th>Status</th>
+                            <th>Opened</th>
+                            <th>Completed</th>
+                            <th>Invoice</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="jc : ${jobCards}">
+                            <td class="fw-semibold" th:text="${jc.jobCardNumber}"></td>
+                            <td th:text="${jc.mechanicName}"></td>
+                            <td><span class="badge bg-info text-dark" th:text="${jc.status}"></span></td>
+                            <td th:text="${#temporals.format(jc.openedAt,'dd MMM yyyy')}"></td>
+                            <td
+                                th:text="${jc.completedAt != null ? #temporals.format(jc.completedAt,'dd MMM yyyy') : '—'}">
+                            </td>
+                            <td>
+                                <span th:if="${jc.invoice != null}" class="badge bg-success">
+                                    <span th:text="${jc.invoice.invoiceNumber}"></span>
+                                    – ₹<span th:text="${jc.invoice.grandTotal}"></span>
+                                </span>
+                                <span th:if="${jc.invoice == null}" class="text-muted small">None</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/job-cards/{id}(id=${jc.id})}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(jobCards)}">
+                            <td colspan="7" class="text-center text-muted py-3">No job cards.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

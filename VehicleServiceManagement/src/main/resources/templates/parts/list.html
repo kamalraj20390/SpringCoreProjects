@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Spare Parts')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <main class="container-fluid py-4 flex-grow-1">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0"><i class="bi bi-box-seam me-2 text-secondary"></i>Spare Parts</h1>
+            <a th:href="@{/parts/new}" class="btn btn-secondary"><i class="bi bi-plus-lg me-1"></i>Add Part</a>
+        </div>
+
+        <!-- Low Stock Alert -->
+        <div th:if="${!#lists.isEmpty(lowStockParts)}" class="alert alert-warning d-flex align-items-center mb-4">
+            <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+            <strong th:text="${#lists.size(lowStockParts)}"></strong>&nbsp;part(s) are at or below their low-stock
+            threshold.
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Unit Price</th>
+                                <th>Stock</th>
+                                <th>Threshold</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="p, stat : ${parts}"
+                                th:classappend="${p.stockQuantity <= p.lowStockThreshold} ? 'table-warning'">
+                                <td th:text="${stat.count}"></td>
+                                <td class="fw-semibold" th:text="${p.partCode}"></td>
+                                <td>
+                                    <div th:text="${p.name}"></div>
+                                    <small class="text-muted" th:if="${p.description}"
+                                        th:text="${p.description}"></small>
+                                </td>
+                                <td th:text="'₹' + ${p.unitPrice}"></td>
+                                <td>
+                                    <span
+                                        th:classappend="${p.stockQuantity <= p.lowStockThreshold} ? 'text-danger fw-bold'"
+                                        th:text="${p.stockQuantity}"></span>
+                                </td>
+                                <td th:text="${p.lowStockThreshold}"></td>
+                                <td class="text-nowrap">
+                                    <a th:href="@{/parts/edit/{id}(id=${p.id})}"
+                                        class="btn btn-sm btn-outline-secondary me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form th:action="@{/parts/delete/{id}(id=${p.id})}" method="post" class="d-inline"
+                                        onsubmit="return confirmDelete('part')">
+                                        <button class="btn btn-sm btn-outline-danger"><i
+                                                class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(parts)}">
+                                <td colspan="7" class="text-center text-muted py-4">No parts in catalog.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

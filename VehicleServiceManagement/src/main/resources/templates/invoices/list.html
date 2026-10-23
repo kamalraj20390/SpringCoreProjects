@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Invoices')}"></head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/layout :: navbar}"></nav>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+    <main class="container-fluid py-4 flex-grow-1">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0"><i class="bi bi-receipt me-2 text-success"></i>Invoices</h1>
+        </div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Invoice No</th>
+                                <th>Job Card</th>
+                                <th>Date</th>
+                                <th>Grand Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="inv, stat : ${invoices}">
+                                <td th:text="${stat.count}"></td>
+                                <td class="fw-semibold" th:text="${inv.invoiceNumber}"></td>
+                                <td th:text="${inv.jobCard.jobCardNumber}"></td>
+                                <td th:text="${#temporals.format(inv.invoiceDate,'dd MMM yyyy')}"></td>
+                                <td class="fw-semibold" th:text="'₹' + ${inv.grandTotal}"></td>
+                                <td>
+									<span class="badge"
+									      th:classappend="${inv.paymentStatus.name() == 'PAID' ? 'bg-success' :
+									                       inv.paymentStatus.name() == 'PARTIALLY_PAID' ? 'bg-warning text-dark' :
+									                       'bg-danger'}"
+									      th:text="${inv.paymentStatus}">
+									</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/invoices/{id}(id=${inv.id})}" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-eye me-1"></i>View
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(invoices)}">
+                                <td colspan="7" class="text-center text-muted py-4">No invoices generated yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

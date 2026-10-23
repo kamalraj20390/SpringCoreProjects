@@ -1,0 +1,63 @@
+/* ── Google Font ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* ── Navbar ─────────────────────────────────────────────────── */
+.navbar-brand { letter-spacing: .5px; }
+.navbar-nav .nav-link { padding: .5rem 1rem; border-radius: .375rem; transition: background .2s; }
+.navbar-nav .nav-link:hover { background: rgba(255,255,255,.1); }
+
+/* ── Stat Cards ─────────────────────────────────────────────── */
+.stat-card { transition: transform .2s, box-shadow .2s; }
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.12) !important; }
+.stat-icon { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.stat-value { font-size: 2rem; line-height: 1; }
+.card-footer { background: transparent; border-top: 1px solid rgba(0,0,0,.06); padding: .5rem 1rem; }
+
+/* ── Status Badges ───────────────────────────────────────────── */
+.badge {
+    font-size: .7rem;
+    letter-spacing: .4px;
+    font-weight: 600;
+}
+
+/* Job card status colours */
+.status-received          { background: #6c757d !important; }
+.status-diagnosis         { background: #0dcaf0 !important; color: #000 !important; }
+.status-waiting-for-parts { background: #ffc107 !important; color: #000 !important; }
+.status-in-progress       { background: #0d6efd !important; }
+.status-ready-for-delivery{ background: #198754 !important; }
+.status-delivered         { background: #212529 !important; }
+.status-cancelled         { background: #dc3545 !important; }
+
+/* ── Tables ──────────────────────────────────────────────────── */
+.table th { font-size: .75rem; text-transform: uppercase; letter-spacing: .6px; }
+.table-hover tbody tr:hover { background-color: rgba(13,110,253,.04); }
+
+/* ── Forms ───────────────────────────────────────────────────── */
+.form-label { font-size: .8rem; }
+.form-control:focus, .form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+.card { border-radius: .75rem; }
+.card-header { border-radius: .75rem .75rem 0 0 !important; border-bottom: 1px solid rgba(0,0,0,.06); }
+
+/* ── Print styles ────────────────────────────────────────────── */
+@media print {
+    .navbar, .btn, form, footer, .alert { display: none !important; }
+    body { background: #fff !important; }
+    .print-card { box-shadow: none !important; border: 1px solid #dee2e6 !important; }
+}
+
+/* ── Misc ─────────────────────────────────────────────────────── */
+.min-vh-100 { min-height: 100vh; }
+a.text-decoration-none:hover { text-decoration: underline !important; }
